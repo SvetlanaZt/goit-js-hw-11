@@ -17,13 +17,9 @@ loaMore.addEventListener('click', onLoadMore)
 
 loaMore.classList.add('is-hidden')
 
- var lightbox = new SimpleLightbox('.gallery a', { 
-    captionDelay: 250,
-   close: true,
-   enableKeyboard: true,
-   swipeClose: true,
-    showCounter: true,
-    docClose: true,
+ var lightbox = new SimpleLightbox('.gallery__link', { 
+  overlayOpacity: 0.4,
+  animationSpeed: 100,
  });
 
 let element = ''
@@ -37,6 +33,7 @@ function onClick(evt) {
   }
 }
 const perPage = '40'
+
 function addPost(element) {
   try {
     const key = '27593134-a882df11ea431345edf986e72'
@@ -50,32 +47,31 @@ function addPost(element) {
       console.log(error);
     }
 }
+let totalPages = ''
 
 function renderImg(name) {
+
   if (name.data.totalHits > perPage) {
-    loaMore.classList.remove('is-hidden')
-  }
-  if (name.data.totalHits === 0) {
+    loaMore.classList.remove('is-hidden');
+    lightbox.refresh();
+  }if (name.data.total === 0) {
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-  } else {
+  }else {
     const addImg = template(name);
     return list.innerHTML = addImg;
   }
   
-lightbox.refresh();
 }
-
+      
 let currentPage = 1
-function onLoadMore() {
+function onLoadMore(e) {
   currentPage += 1
   addPost(currentPage)
-  // const totalPages = Math.floor(data.totalHits / perPage)
-  // console.log(totalPages)
-  //     if (currentPage > totalPages) {
-  //       loaMore.classList.add('is-hidden') 
-  //       Notify.failure("We're sorry, but you've reached the end of search results.")
-  //     }
-  
+    // totalPages = Math.floor(name.data.totalHits / perPage)
+    //  if (currentPage > totalPages) {
+    //     loaMore.style.display = 'none';
+    //     Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+  //  }
 }
 
 
