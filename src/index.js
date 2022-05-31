@@ -45,36 +45,38 @@ function addPost(element) {
       console.log(error);
     }
 }
-let totalPages = '';
+let hits = '';
 let perPage = '40';
-
-
+ 
+ 
 function renderImg(name) {
   const addImg = template(name);
   list.innerHTML = addImg;
-  
-  totalPages = Math.floor(name.data.totalHits / perPage)
-  
-  if (name.data.totalHits > perPage) {
+  hits = name.data.totalHits
+  if (hits > perPage) {
     loaMore.classList.remove('is-hidden');
    
   } else if (name.data.total === 0) {
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
   }
-
+btn()
    lightbox.refresh();
 }
-      
+
+function btn() {
+  if (hits < currentPage * perPage) {
+    loaMore.classList.add('is-hidden');
+     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+  }
+ }
+
 let currentPage = 1
 function onLoadMore(e) {
   currentPage += 1
   addPost(currentPage)
 }
-    // totalPages = Math.floor(name.data.totalHits / perPage)
-  //    if (currentPage > totalPages) {
-  //      loaMore.classList.remove('is-hidden');
-  //       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-  //  }
+
+  //    
 
 
 
