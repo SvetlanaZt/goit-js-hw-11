@@ -32,18 +32,17 @@ function onClick(evt) {
     list.innerHTML='';
   }
 }
+
 function addPost(element) {
-  try {
     const key = '27593134-a882df11ea431345edf986e72'
      axios.get(`https://pixabay.com/api/?key=${key}&q=${element}&image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=${perPage}`)
       .then(function (response) {
         renderImg(response)
       })
-  }
-  catch (error) {
+       .catch(function (error) {
       // handle error
       console.log(error);
-    }
+  })
 }
 let hits = '';
 let perPage = '40';
@@ -55,7 +54,6 @@ function renderImg(name) {
   hits = name.data.totalHits
   if (hits > perPage) {
     loaMore.classList.remove('is-hidden');
-   
   } else if (name.data.total === 0) {
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
   }
@@ -73,10 +71,12 @@ function btn() {
 let currentPage = 1
 function onLoadMore(e) {
   currentPage += 1
-  addPost(currentPage)
+  axios.get(`https://pixabay.com/api/?key=27593134-a882df11ea431345edf986e72&q=${element}&image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=${perPage}`)
+      .then(function (response) {
+        renderImg(response)
+      })
 }
 
-  //    
 
 
 
